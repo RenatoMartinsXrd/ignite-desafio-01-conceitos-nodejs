@@ -1,14 +1,6 @@
 # Desafio 1 do Ignite Trilha NodeJS
 
-
-
-
-
-
 ![cover-node js](https://user-images.githubusercontent.com/70973620/217610446-2cdb0b5c-9ba4-4e06-867d-6605b710ca58.png)
-
-
-
 
 <h3 align="center">
   Desafio 01: Conceitos do Node.js
@@ -60,10 +52,4 @@ yarn test
 ```
 yarn dev
 ```
-
-<p align="center">
-  <img src="./assets/yarn_test.jpg">
-</p>
-
-
 
