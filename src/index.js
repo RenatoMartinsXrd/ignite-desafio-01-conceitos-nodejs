@@ -86,12 +86,20 @@ app.patch('/todos/:id/done', checksExistsUserAccount, (request, response) => {
     return response.status(404).json({error: 'Esse id não existe'})
   }
 
-  // const todo = TodoController.doneFinish(user.username, id)
-  response.status(201).json(newTodo)
+  const todo = TodoController.doneTodo(user.username, id)
+  response.status(201).json(todo)
 });
 
 app.delete('/todos/:id', checksExistsUserAccount, (request, response) => {
-  // Complete aqui
+  const user = request.user
+  const id = request.params.id
+
+  if (!TodoController.getTodo(user.username, id)) {
+    return response.status(404).json({error: 'Esse id não existe'})
+  }
+
+  TodoController.deleteTodo(user.username, id)
+  response.status(204).json()
 });
 
 module.exports = app;
