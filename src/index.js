@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const UserController = require('./controllers/UserController')
+const TodoController = require('./controllers/TodoController')
 
 const { v4: uuidv4 } = require('uuid');
 
@@ -9,8 +10,6 @@ const app = express();
 app.use(express.json())
 app.use(cors());
 app.use(express.json());
-
-// const users = [];
 
 function checksExistsUserAccount(request, response, next) {
   const { username } = request.headers
@@ -57,7 +56,7 @@ app.post('/todos', checksExistsUserAccount, (request, response) => {
     created_at: new Date()
   }
 
-  UserController.createTodo(user.username, todo)
+  TodoController.createTodo(user.username, todo)
   response.status(201).json(todo)
 });
 
@@ -66,7 +65,7 @@ app.put('/todos/:id', checksExistsUserAccount, (request, response) => {
   const { title, deadline } = request.body
   const id = request.params.id
 
-  if (!UserController.getTodo(user.username, id)) {
+  if (!TodoController.getTodo(user.username, id)) {
     return response.status(404).json({error: 'Esse id não existe'})
   }
 
@@ -75,12 +74,20 @@ app.put('/todos/:id', checksExistsUserAccount, (request, response) => {
     deadline: new Date(deadline),
   }
 
-  const newTodo = UserController.updateTodo(user.username, id, todo)
+  const newTodo = TodoController.updateTodo(user.username, id, todo)
   response.status(201).json(newTodo)
 });
 
 app.patch('/todos/:id/done', checksExistsUserAccount, (request, response) => {
-  // Complete aqui
+  const user = request.user
+  const id = request.params.id
+
+  if (!TodoController.getTodo(user.username, id)) {
+    return response.status(404).json({error: 'Esse id não existe'})
+  }
+
+  // const todo = TodoController.doneFinish(user.username, id)
+  response.status(201).json(newTodo)
 });
 
 app.delete('/todos/:id', checksExistsUserAccount, (request, response) => {
